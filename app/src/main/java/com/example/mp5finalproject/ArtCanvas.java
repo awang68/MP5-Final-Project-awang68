@@ -1,9 +1,5 @@
 package com.example.mp5finalproject;
 
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.os.Bundle;
@@ -12,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.SeekBar;
 
@@ -31,6 +26,10 @@ public class ArtCanvas extends AppCompatActivity {
     private Path path = new Path();
     private Paint brush = new Paint();
 
+    /**
+     * Creates the tool buttons within the canvas UI.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +44,7 @@ public class ArtCanvas extends AppCompatActivity {
         brushButton.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                brushTool.setColor(Color.BLACK);
+                brushTool.brushcolorTool();
             }
         }));
 
@@ -53,7 +52,7 @@ public class ArtCanvas extends AppCompatActivity {
         colorButton.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                brushTool.setColor(Color.BLUE);
+                brushTool.colorTool();
             }
         }));
 
@@ -66,8 +65,7 @@ public class ArtCanvas extends AppCompatActivity {
                 } else if (sizeBar.getVisibility() == View.VISIBLE) {
                     sizeBar.setVisibility(View.GONE);
                 }
-                brush.setStrokeJoin(Paint.Join.ROUND);
-                brushTool.setSize(5);
+                brushTool.sizeTool();
             }
         }));
 
@@ -75,7 +73,7 @@ public class ArtCanvas extends AppCompatActivity {
         eraserButton.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                brushTool.setColor(Color.WHITE);
+                brushTool.eraserTool();
             }
         }));
 
@@ -83,7 +81,7 @@ public class ArtCanvas extends AppCompatActivity {
         clearButton.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                brushTool.getPath().reset();
+                brushTool.clearTool();
             }
         }));
     }

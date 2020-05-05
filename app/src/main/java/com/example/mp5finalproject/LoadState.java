@@ -19,15 +19,17 @@ import android.widget.ToggleButton;
  * (Maybe add preview icons to each canvas save file?)
  */
 public class LoadState extends AppCompatActivity {
-    private Button loadButton;
-    private ToggleButton canvas1;
-    private ToggleButton canvas2;
-    private ToggleButton canvas3;
-    private ToggleButton canvas4;
-    private ToggleButton canvas5;
-    private ToggleButton canvas6;
+    private Button canvas1;
+    private Button canvas2;
+    private Button canvas3;
+    private Button canvas4;
+    private Button canvas5;
+    private Button canvas6;
 
-
+    /**
+     * Creates a page with six buttons, each one corresponding to an art canvas file.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +86,9 @@ public class LoadState extends AppCompatActivity {
         }));
     }
 
+    /**
+     * Changes the screen to the ArtCanvas screen.
+     */
     public void openartcanvas() {
         Intent intent = new Intent(this, ArtCanvas.class);
         startActivity(intent);
