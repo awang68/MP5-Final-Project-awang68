@@ -28,10 +28,11 @@ public class Brush extends View {
     private float setx;
     private float sety;
 
-    public void setPaths(ArrayList<MainBrush> setPaths) {
-        paths = setPaths;
-    }
-
+    /**
+     * Sets up the main brush tool settings.
+     * @param context context of the current application state.
+     * @param attrs Attributes for the custom view.
+     */
     public Brush(Context context, AttributeSet attrs) {
         super(context, attrs);
         brush = new Paint();
@@ -43,6 +44,10 @@ public class Brush extends View {
         brush.setColor(Color.BLACK);
     }
 
+    /**
+     * Sets up the dimensions of the canvas based on the screen layout.
+     * @param display Provides the general display screen information.
+     */
     public void create(DisplayMetrics display) {
         int width = display.widthPixels;
         int height = display.heightPixels;
@@ -52,12 +57,25 @@ public class Brush extends View {
         brushsize = 15;
     }
 
+    /**
+     * Updates the view layout size when it is changed.
+     * @param w the current width of the View.
+     * @param h the current height of the View.
+     * @param oldw the old width of the View.
+     * @param oldh the old height of the View.
+     */
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         canva = new Canvas(Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888));
     }
 
+    /**
+     * Starts path creation from the initial starting position.
+     * Applies the current brush settings to the path.
+     * @param x the current x position.
+     * @param y the current y position.
+     */
     private void start(float x, float y) {
         path = new Path();
         MainBrush draw = new MainBrush(currentcolor, brushsize, path);
@@ -69,6 +87,11 @@ public class Brush extends View {
 
     }
 
+    /**
+     * Creates paths while the position is constantly updated by motion movement.
+     * @param x the current x position.
+     * @param y the current y position.
+     */
     private void move(float x, float y) {
         float getx = Math.abs(x - setx);
         float gety = Math.abs(y - sety);
@@ -79,13 +102,19 @@ public class Brush extends View {
         }
     }
 
+    /**
+     * Creates a path to the last updated position.
+     * @param x the current x position.
+     * @param y the current y position.
+     */
     private void upmove(float x, float y) {
         path.lineTo(setx, sety);
     }
+
     /**
-     *
-     * @param press
-     * @return
+     * Monitors the behavior of the brush movement by handling touch screen motion events.
+     * @param press Reports movements made (from either a mouse controller or a finger motion).
+     * @return returns true if the event was handled.
      */
     @Override
     public boolean onTouchEvent(MotionEvent press) {
@@ -106,46 +135,89 @@ public class Brush extends View {
         return true;
     }
 
+    /**
+     * Gets the current Paths arraylist size.
+     * @return
+     */
     public int getPathSize() {
         return paths.size();
     }
 
-    public ArrayList<MainBrush> setPaths() {
+    /**
+     * Sets the Paths arraylist to the selected LoadState canvas file Paths arraylist.
+     * @param setPaths Paths arraylist from a saved canvas.
+     */
+    public void setPaths(ArrayList<MainBrush> setPaths) {
+        paths = setPaths;
+    }
+
+    /**
+     * Gets the current Paths arraylist.
+     * @return
+     */
+    public ArrayList<MainBrush> getPaths() {
         return paths;
     }
 
+    /**
+     * Sets the brush size according to "Brush" or "Bucket" when the Brush Button is toggled.
+     */
     public void brushtypeTool() {
         sizeTool();
         invalidate();
     }
 
+    /**
+     * Sets the brush color using RGB values.
+     * @param r red RGB value.
+     * @param g green RGB value.
+     * @param b blue RGB value.
+     */
     public void colorTool(int r, int g, int b) {
         brush.setColor(Color.rgb(r, g, b));
         currentcolor = Color.rgb(r, g, b);
         invalidate();
     }
 
+    /**
+     * Sets the brush size using a size value obtained from ArtCanvas class.
+     * @param size
+     */
     public void setBrushSize(int size) {
         brushsize = size;
     }
 
+    /**
+     * Sets the brush size.
+     */
     public void sizeTool() {
         brush.setStrokeWidth(brushsize);
         invalidate();
     }
+
+    /**
+     * Turns the brush into an eraser by setting the brush color to white.
+     */
     public void eraserTool() {
-        brush.setColor(Color.WHITE);
+        if (currentcolor == Color.WHITE) {
+            currentcolor = Color.BLACK;
+        } else {
+            currentcolor = Color.WHITE;
+        }
         invalidate();
     }
 
+    /**
+     * Clears the entire canvas by clearing the Paths arraylist.
+     */
     public void clearTool() {
         paths.clear();
         invalidate();
     }
 
     /**
-     *
-     * @param canvas
+     * Implements the drawing functionality with support from the MainBrush class.
+     * @param canvas Settings of the current canvas.
      */
     @Override
     protected void onDraw(Canvas canvas) {

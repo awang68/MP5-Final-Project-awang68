@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 /**
  * Main art project area where drawings are created.
  * This will have some art tools, mainly brush, erase, color, size tools.
@@ -56,7 +58,7 @@ public class ArtCanvas extends AppCompatActivity {
     private int blueValue = 255;
 
     private Brush brushTool;
-    private LoadState loadState;
+    private LoadState loadState = new LoadState();
     private int pathSize = 0;
 
     /**
@@ -264,7 +266,7 @@ public class ArtCanvas extends AppCompatActivity {
                     backButton.setText("Save");
                     pathSize = brushTool.getPathSize();
                 } else if (backButton.getText().equals("Save")) {
-                    loadState.setSaveState(brushTool.setPaths());
+                    loadState.setSaveState(brushTool.getPaths());
                     backButton.setText("Back");
                 } else if (backButton.getText().equals("Back")) {
                     openloadstate();

@@ -17,12 +17,18 @@ import java.util.ArrayList;
  * (Maybe add preview icons to each canvas save file?)
  */
 public class LoadState extends AppCompatActivity {
+    /**
+     * Buttons of each canvas.
+     */
     private Button canvas1;
     private Button canvas2;
     private Button canvas3;
     private Button canvas4;
     private Button canvas5;
     private Button canvas6;
+    /**
+     * The save states of each canvas.
+     */
     private ArrayList<MainBrush> save1 = new ArrayList<>();
     private ArrayList<MainBrush> save2 = new ArrayList<>();
     private ArrayList<MainBrush> save3 = new ArrayList<>();
@@ -30,7 +36,6 @@ public class LoadState extends AppCompatActivity {
     private ArrayList<MainBrush> save5 = new ArrayList<>();
     private ArrayList<MainBrush> save6 = new ArrayList<>();
     private int canvasNumber = 0;
-    private Brush brushTool;
 
     public void setSaveState(ArrayList<MainBrush> save) {
         if (save == null || canvasNumber == 0) {
@@ -45,13 +50,15 @@ public class LoadState extends AppCompatActivity {
             save4 = save;
         } else if (canvasNumber == 5) {
             save5 = save;
-        } else if (canvasNumber == 61) {
+        } else if (canvasNumber == 6) {
             save6 = save;
         }
     }
+
     /**
      * Creates a page with six buttons, each one corresponding to an art canvas file.
-     * @param savedInstanceState
+     * Each file utilizes a save state function to save their current drawing.
+     * @param savedInstanceState contains the data it most recently supplied in onSaveInstanceState(Bundle).
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,13 +66,14 @@ public class LoadState extends AppCompatActivity {
         setContentView(R.layout.activity_load_state);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        final Brush brush = new Brush(this, null);
 
         canvas1 = findViewById(R.id.artwork1);
         canvas1.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 canvasNumber = 1;
-                brushTool.setPaths(save1);
+                brush.setPaths(save1);
                 openartcanvas();
             }
         }));
@@ -75,7 +83,7 @@ public class LoadState extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 canvasNumber = 2;
-                brushTool.setPaths(save2);
+                brush.setPaths(save2);
                 openartcanvas();
             }
         }));
@@ -85,7 +93,7 @@ public class LoadState extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 canvasNumber = 3;
-                brushTool.setPaths(save3);
+                brush.setPaths(save3);
                 openartcanvas();
             }
         }));
@@ -95,7 +103,7 @@ public class LoadState extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 canvasNumber = 4;
-                brushTool.setPaths(save4);
+                brush.setPaths(save4);
                 openartcanvas();
             }
         }));
@@ -105,7 +113,7 @@ public class LoadState extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 canvasNumber = 5;
-                brushTool.setPaths(save5);
+                brush.setPaths(save5);
                 openartcanvas();
             }
         }));
@@ -115,7 +123,7 @@ public class LoadState extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 canvasNumber = 6;
-                brushTool.setPaths(save6);
+                brush.setPaths(save6);
                 openartcanvas();
             }
         }));

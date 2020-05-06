@@ -10,6 +10,12 @@ public class MainBrush {
     int width;
     Path setpath;
 
+    /**
+     * Settings are configured by the Brush class for each path created.
+     * @param color the current color.
+     * @param width the current stroke width.
+     * @param path the current path.
+     */
     MainBrush(int color, int width, Path path) {
         this.color = color;
         this.width = width;
