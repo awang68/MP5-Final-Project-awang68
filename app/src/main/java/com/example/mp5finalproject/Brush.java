@@ -18,27 +18,28 @@ import java.util.ArrayList;
  */
 public class Brush extends View {
     private ArrayList<MainBrush> paths = new ArrayList<>();
-    private Path path = new Path();
-    private Canvas canva = new Canvas();
-    private Paint brush = new Paint();
-    private Paint bitmappaint = new Paint(Paint.DITHER_FLAG);
+    private Path path;
+    private Canvas canva;
+    private Paint brush;
+    private Paint paintscreen = new Paint(Paint.DITHER_FLAG);
     private int brushsize;
     private Bitmap bitmap;
-    private int currentcolor = Color.BLACK;
-    float setx;
-    float sety;
+    private int currentcolor;
+    private float setx;
+    private float sety;
 
-
-    public Brush(Context context) {
-        super(context, null);
+    public void setPaths(ArrayList<MainBrush> setPaths) {
+        paths = setPaths;
     }
 
     public Brush(Context context, AttributeSet attrs) {
         super(context, attrs);
+        brush = new Paint();
         brush.setAntiAlias(true);
-        brush.setStrokeWidth(brushsize);
+        brush.setStrokeWidth(15);
         brush.setStyle(Paint.Style.STROKE);
         brush.setStrokeJoin(Paint.Join.ROUND);
+        brush.setStrokeCap(Paint.Cap.ROUND);
         brush.setColor(Color.BLACK);
     }
 
@@ -47,6 +48,8 @@ public class Brush extends View {
         int height = display.heightPixels;
         bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         canva = new Canvas(bitmap);
+        currentcolor = Color.BLACK;
+        brushsize = 15;
     }
 
     @Override
@@ -57,8 +60,9 @@ public class Brush extends View {
 
     private void start(float x, float y) {
         path = new Path();
-        MainBrush draw = new MainBrush(Color.BLACK, 10, path);
+        MainBrush draw = new MainBrush(currentcolor, brushsize, path);
         paths.add(draw);
+        path.reset();
         path.moveTo(x, y);
         setx = x;
         sety = y;
@@ -102,20 +106,27 @@ public class Brush extends View {
         return true;
     }
 
+    public int getPathSize() {
+        return paths.size();
+    }
+
+    public ArrayList<MainBrush> setPaths() {
+        return paths;
+    }
+
+    public void brushtypeTool() {
+        sizeTool();
+        invalidate();
+    }
+
+    public void colorTool(int r, int g, int b) {
+        brush.setColor(Color.rgb(r, g, b));
+        currentcolor = Color.rgb(r, g, b);
+        invalidate();
+    }
+
     public void setBrushSize(int size) {
         brushsize = size;
-    }
-
-    public void brushcolorTool() {
-        brush.setColor(Color.BLACK);
-        currentcolor = Color.BLACK;
-        invalidate();
-    }
-
-    public void colorTool() {
-        brush.setColor(Color.BLUE);
-        currentcolor = Color.BLUE;
-        invalidate();
     }
 
     public void sizeTool() {
@@ -123,12 +134,12 @@ public class Brush extends View {
         invalidate();
     }
     public void eraserTool() {
-        brush.setColor(Color.TRANSPARENT);
+        brush.setColor(Color.WHITE);
         invalidate();
     }
 
     public void clearTool() {
-        path.reset();
+        paths.clear();
         invalidate();
     }
 
@@ -139,14 +150,13 @@ public class Brush extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         canvas.save();
-        canva.drawColor(Color.WHITE);
-        for (MainBrush draw : paths) {
-            brush.setColor(draw.color);
-            brush.setStrokeWidth(draw.width);
+        for (MainBrush paint : paths) {
+            brush.setColor(paint.color);
+            brush.setStrokeWidth(paint.width);
             brush.setMaskFilter(null);
-            canva.drawPath(draw.setpath, brush);
+            canvas.drawPath(paint.setpath, brush);
         }
-        canvas.drawBitmap(bitmap, 0, 0, bitmappaint);
+        canvas.drawBitmap(bitmap, 0, 0, paintscreen);
         canvas.restore();
     }
 }

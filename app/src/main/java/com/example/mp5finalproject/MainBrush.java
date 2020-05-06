@@ -6,9 +6,9 @@ import android.graphics.Path;
  * The settings of the brush tool.
  */
 public class MainBrush {
-    public int color;
-    public int width;
-    public Path setpath;
+    int color;
+    int width;
+    Path setpath;
 
     MainBrush(int color, int width, Path path) {
         this.color = color;

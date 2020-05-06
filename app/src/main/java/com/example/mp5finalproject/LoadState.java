@@ -3,15 +3,13 @@ package com.example.mp5finalproject;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
 import android.widget.Button;
-import android.widget.ToggleButton;
+
+import java.util.ArrayList;
 
 /**
  * Contains a gallery of saved creations.
@@ -25,7 +23,32 @@ public class LoadState extends AppCompatActivity {
     private Button canvas4;
     private Button canvas5;
     private Button canvas6;
+    private ArrayList<MainBrush> save1 = new ArrayList<>();
+    private ArrayList<MainBrush> save2 = new ArrayList<>();
+    private ArrayList<MainBrush> save3 = new ArrayList<>();
+    private ArrayList<MainBrush> save4 = new ArrayList<>();
+    private ArrayList<MainBrush> save5 = new ArrayList<>();
+    private ArrayList<MainBrush> save6 = new ArrayList<>();
+    private int canvasNumber = 0;
+    private Brush brushTool;
 
+    public void setSaveState(ArrayList<MainBrush> save) {
+        if (save == null || canvasNumber == 0) {
+            return;
+        } else if (canvasNumber == 1) {
+            save1 = save;
+        } else if (canvasNumber == 2) {
+            save2 = save;
+        } else if (canvasNumber == 3) {
+            save3 = save;
+        } else if (canvasNumber == 4) {
+            save4 = save;
+        } else if (canvasNumber == 5) {
+            save5 = save;
+        } else if (canvasNumber == 61) {
+            save6 = save;
+        }
+    }
     /**
      * Creates a page with six buttons, each one corresponding to an art canvas file.
      * @param savedInstanceState
@@ -41,6 +64,8 @@ public class LoadState extends AppCompatActivity {
         canvas1.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                canvasNumber = 1;
+                brushTool.setPaths(save1);
                 openartcanvas();
             }
         }));
@@ -49,6 +74,8 @@ public class LoadState extends AppCompatActivity {
         canvas2.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                canvasNumber = 2;
+                brushTool.setPaths(save2);
                 openartcanvas();
             }
         }));
@@ -57,6 +84,8 @@ public class LoadState extends AppCompatActivity {
         canvas3.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                canvasNumber = 3;
+                brushTool.setPaths(save3);
                 openartcanvas();
             }
         }));
@@ -65,6 +94,8 @@ public class LoadState extends AppCompatActivity {
         canvas4.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                canvasNumber = 4;
+                brushTool.setPaths(save4);
                 openartcanvas();
             }
         }));
@@ -73,6 +104,8 @@ public class LoadState extends AppCompatActivity {
         canvas5.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                canvasNumber = 5;
+                brushTool.setPaths(save5);
                 openartcanvas();
             }
         }));
@@ -81,6 +114,8 @@ public class LoadState extends AppCompatActivity {
         canvas6.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                canvasNumber = 6;
+                brushTool.setPaths(save6);
                 openartcanvas();
             }
         }));
